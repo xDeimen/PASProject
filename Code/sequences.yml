@@ -1,0 +1,13 @@
+R1: [
+  {["PrePick","Base1"]:"J"}, 
+  {"Object":"Pick"},
+  {"Place":"obj" }
+]
+
+R2: [
+  {"J":"PrePick"}, 
+  {"Pick":"test"}
+]
+
+
+  
