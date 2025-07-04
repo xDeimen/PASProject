@@ -40,7 +40,7 @@ def station1(color):
     R1RedPick = RDK.Item('R1RedPick')
     R1RedPrePick = RDK.Item('R1RedPrePick')
     R1BrownPick = RDK.Item('R1BrownPick')
-    R1BluePrePick = RDK.Item('R1BrownPrePick')
+    R1BrownPrePick = RDK.Item('R1BrownPrePick')
 
     #R2 Points
     R2Place = RDK.Item('R2Place')
@@ -53,7 +53,7 @@ def station1(color):
     R2RedPick = RDK.Item('R2RedPick')
     R2RedPrePick = RDK.Item('R2RedPrePick')
     R2BrownPick = RDK.Item('R2BrownPick')
-    R2BluePrePick = RDK.Item('R2BrownPrePick')
+    R2BrownPrePick = RDK.Item('R2BrownPrePick')
 
     #R3 Points
     R3Place = RDK.Item('R3Place')
@@ -66,7 +66,7 @@ def station1(color):
     R3RedPick = RDK.Item('R3RedPick')
     R3RedPrePick = RDK.Item('R3RedPrePick')
     R3BrownPick = RDK.Item('R3BrownPick')
-    R3BluePrePick = RDK.Item('R3BrownPrePick')
+    R3BrownPrePick = RDK.Item('R3BrownPrePick')
 
     #R4 Points
     R4Place = RDK.Item('R4Place')
@@ -79,7 +79,7 @@ def station1(color):
     R4RedPick = RDK.Item('R4RedPick')
     R4RedPrePick = RDK.Item('R4RedPrePick')
     R4BrownPick = RDK.Item('R4BrownPick')
-    R4BluePrePick = RDK.Item('R4BrownPrePick')
+    R4BrownPrePick = RDK.Item('R4BrownPrePick')
 
     #Move Home
     R1.setPoseFrame(R1Base)
@@ -94,13 +94,15 @@ def station1(color):
     R4.MoveJ(R4Home, blocking=False)
 
 
-    R1.MoveJ(R1Int1, blocking=False)
-    R2.MoveJ(R2Int1, blocking=False)
-    R3.MoveJ(R3Int1, blocking=False)
-    R4.MoveJ(R4Int1, blocking=False)
+   
 
 
     if color == "Red":
+        R1.MoveJ(R1Int1, blocking=False)
+        R2.MoveJ(R2Int1, blocking=False)
+        R3.MoveJ(R3Int1, blocking=False)
+        R4.MoveJ(R4Int1, blocking=False)
+
         R1.MoveJ(R1Int2, blocking=False)
 
         #PrePick
@@ -167,10 +169,77 @@ def station1(color):
         R3.MoveJ(R3Home, blocking=False)
         R4.MoveJ(R4Home, blocking=False)
     
+    if color == "Blue":
+        R1.MoveJ(R1Int1, blocking=False)
+        R2.MoveJ(R2Int1, blocking=False)
+        R4.MoveJ(R4Int1, blocking=False)
 
+        R4.MoveJ(R4Int2, blocking=False)
+
+        #PrePick
+        R1.setPoseFrame(R1BlueBase)
+        R2.setPoseFrame(R2BlueBase)
+        R3.setPoseFrame(R3BlueBase)
+        R4.setPoseFrame(R4BlueBase)
+
+        R1.MoveL(R1BluePrePick, blocking=False)
+        R2.MoveL(R2BluePrePick, blocking=False)
+        R3.MoveL(R3BluePrePick, blocking=False)
+        R4.MoveL(R4BluePrePick, blocking=False)
+
+        R1.MoveL(R1BluePick, blocking=False)
+        R2.MoveL(R2BluePick, blocking=False)
+        R3.MoveL(R3BluePick, blocking=False)
+        R4.MoveL(R4BluePick, blocking=False)
+
+        #TODO:ATTACH
+
+        R1.MoveL(R1BluePrePick, blocking=False)
+        R2.MoveL(R2BluePrePick, blocking=False)
+        R3.MoveL(R3BluePrePick, blocking=False)
+        R4.MoveL(R4BluePrePick, blocking=False)
+
+        R1.setPoseFrame(R1Base)
+        R2.setPoseFrame(R2Base)
+        R3.setPoseFrame(R3Base)
+        R4.setPoseFrame(R4Base)
+
+        R4.MoveJ(R4Int1, blocking=False)
+
+        R1.MoveJ(R1Home, blocking=False)
+        R2.MoveJ(R2Home, blocking=False)
+        R3.MoveJ(R3Home, blocking=False)
+        R4.MoveJ(R4Home, blocking=False)
+
+        R1.MoveJ(R1PrePlace, blocking=False)
+        R2.MoveJ(R2PrePlace, blocking=False)
+        R3.MoveJ(R3PrePlace, blocking=False)
+        R4.MoveJ(R4PrePlace, blocking=False)
+
+        R1.MoveL(R1Place, blocking=False)
+        R2.MoveL(R2Place, blocking=False)
+        R3.MoveL(R3Place, blocking=False)
+        R4.MoveL(R4Place, blocking=False)
+
+        #TODO: DETACH
+
+        R1.MoveL(R1PrePlace, blocking=False)
+        R2.MoveL(R2PrePlace, blocking=False)
+        R3.MoveL(R3PrePlace, blocking=False)
+        R4.MoveL(R4PrePlace, blocking=False)
+
+        R1.MoveJ(R1Home, blocking=False)
+        R2.MoveJ(R2Home, blocking=False)
+        R3.MoveJ(R3Home, blocking=False)
+        R4.MoveJ(R4Home, blocking=False)
+    
+        
+        
+
+        
 
         
 
 
 if __name__ == "__main__":
-    station1("Red")
+    station1("Blue")
