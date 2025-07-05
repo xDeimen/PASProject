@@ -124,12 +124,6 @@ def station1(color):
 
         R1.MoveJ(R1Int2, blocking=False)
 
-        #PrePick
-        R1.setPoseFrame(R1RedBase)
-        R2.setPoseFrame(R2RedBase)
-        R3.setPoseFrame(R3RedBase)
-        R4.setPoseFrame(R4RedBase)
-
         R1.MoveJ(R1RedPrePick, blocking=False)
         R2.MoveJ(R2RedPrePick, blocking=False)
         R3.MoveJ(R3RedPrePick, blocking=False)
@@ -145,20 +139,18 @@ def station1(color):
         pose_abs = R1RedBase.PoseAbs()
         R1RedBase.setParent(R1Tool)
         R1RedBase.setPoseAbs(pose_abs)
-        print("Old Pose (abs):", pose_abs)
-        print("New Pose (abs):", R1RedBase.PoseAbs())
 
-        pose_abs = RBRed.PoseAbs()
-        RFRed.setParent(R2Tool)
-        RFRed.setPose(pose_abs)
+        pose_abs = R2RedBase.PoseAbs()
+        R2RedBase.setParent(R2Tool)
+        R2RedBase.setPoseAbs(pose_abs)
 
-        pose_abs = RBRed.PoseAbs()
-        LBRed.setParent(R3Tool)
-        LBRed.setPose(pose_abs)
+        pose_abs = R3RedBase.PoseAbs()
+        R3RedBase.setParent(R3Tool)
+        R3RedBase.setPoseAbs(pose_abs)
 
-        pose_abs = RBRed.PoseAbs()
-        LFRed.setParent(R4Tool)
-        LFRed.setPose(pose_abs)
+        pose_abs = R4RedBase.PoseAbs()
+        R4RedBase.setParent(R4Tool)
+        R4RedBase.setPoseAbs(pose_abs)
 
         #Prepick
         R1.MoveL(R1RedPrePick, blocking=False)
