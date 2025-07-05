@@ -88,23 +88,6 @@ def station1(color):
     R4BrownPick = RDK.Item('R4BrownPick')
     R4BrownPrePick = RDK.Item('R4BrownPrePick')
 
-    RBBlue = RDK.Item("Dreapta_Spate_Albastru")
-    RBRed = RDK.Item("Dreapta_Spate")
-    RBBrown = RDK.Item("Dreapta_Spate_Maro")
-
-    RFBlue = RDK.Item("Dreapta_Fata_Albastru")
-    RFRed = RDK.Item("Dreapta_Fata")
-    RFBrown = RDK.Item("Dreapta_Fata_Maro")
-
-    LBBlue = RDK.Item("Stanga_Spate_Albastru")
-    LBRed = RDK.Item("Stanga_Spate")
-    LBBrown = RDK.Item("Stanga_Spate_Maro")
-
-    LFBlue = RDK.Item("Stanga_Spate_Albastru")
-    LFRed = RDK.Item("Stanga_Spate")
-    LFBrown = RDK.Item("Stanga_Spate_Maro")
-
-
     #Move Home
     R1.setPoseFrame(R1Base)
     R2.setPoseFrame(R2Base)
