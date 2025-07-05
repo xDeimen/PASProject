@@ -91,7 +91,7 @@ def station2(color):
         R5.MoveJ(R5Int4, blocking=False)
 
         R5.MoveJ(R5Int2, blocking=False)
-        R6.MoveJ(R6BackPlace, blocking=False)
+        R6.MoveJ(R6BackPrePlace, blocking=False)
 
         R5.MoveJ(R5PrePlace, blocking=False)
         R6.MoveL(R6BackPlace, blocking=False)
@@ -113,8 +113,7 @@ def station2(color):
         R6.MoveL(R6BackPrePlace, blocking=False)
 
         R5.MoveJ(R5Home, blocking=False)
-
-
+        R6.MoveJ(R6Home, blocking=False)
 
     
     if color == "Blue":
@@ -128,6 +127,9 @@ def station2(color):
         R6.MoveL(R6BackPick, blocking=False)
         R5.MoveL(R5BluePick, blocking=False)
 
+        while R5.Busy() or R6.Busy():
+            a = 1
+
         #TODO:Attach
         pose_abs = HoodBlueBase.PoseAbs()
         HoodBlueBase.setParent(R5Tool)
@@ -136,6 +138,37 @@ def station2(color):
         pose_abs = BackWindowBase.PoseAbs()
         BackWindowBase.setParent(R6Tool)
         BackWindowBase.setPoseAbs(pose_abs)
+
+        R6.MoveL(R6BackPrePick, blocking=False)
+        R5.MoveL(R5BluePrePick, blocking=False)
+
+        R6.MoveJ(R6Int4, blocking=False)
+        R5.MoveJ(R5Int5, blocking=False)
+
+        R5.MoveJ(R5Int2, blocking=False)
+        R6.MoveJ(R6BackPrePlace, blocking=False)
+
+        R5.MoveJ(R5PrePlace, blocking=False)
+        R6.MoveL(R6BackPlace, blocking=False)
+
+        R5.MoveJ(R5Place, blocking=False)
+
+        while R5.Busy() or R6.Busy():
+            a = 1
+
+        pose_abs = HoodBlueBase.PoseAbs()
+        HoodBlueBase.setParent(CarBase)
+        HoodBlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = BackWindowBase.PoseAbs()
+        BackWindowBase.setParent(CarBase)
+        BackWindowBase.setPoseAbs(pose_abs)
+
+        R5.MoveJ(R5PrePlace, blocking=False)
+        R6.MoveL(R6BackPrePlace, blocking=False)
+
+        R5.MoveJ(R5Home, blocking=False)
+        R6.MoveJ(R6Home, blocking=False)
 
 
     if color == "Brown":
@@ -151,6 +184,9 @@ def station2(color):
         R6.MoveL(R6BackPick, blocking=False)
         R5.MoveL(R5BrownPick, blocking=False)
 
+        while R5.Busy() or R6.Busy():
+            a = 1
+
         #TODO:Attach
         pose_abs = HoodBrownBase.PoseAbs()
         HoodBrownBase.setParent(R5Tool)
@@ -159,10 +195,65 @@ def station2(color):
         pose_abs = BackWindowBase.PoseAbs()
         BackWindowBase.setParent(R6Tool)
         BackWindowBase.setPoseAbs(pose_abs)
-    
-    while R5.Busy() or R6.Busy():
+
+        R6.MoveL(R6BackPrePick, blocking=False)
+        R5.MoveL(R5BrownPrePick, blocking=False)
+
+        R6.MoveJ(R6Int4, blocking=False)
+        R5.MoveJ(R5Int3, blocking=False)
+
+        R5.MoveJ(R5Int2, blocking=False)
+        R6.MoveJ(R6BackPrePlace, blocking=False)
+
+        R5.MoveJ(R5PrePlace, blocking=False)
+        R6.MoveL(R6BackPlace, blocking=False)
+
+        R5.MoveJ(R5Place, blocking=False)
+
+        while R5.Busy() or R6.Busy():
+            a = 1
+
+        pose_abs = HoodBrownBase.PoseAbs()
+        HoodBrownBase.setParent(CarBase)
+        HoodBrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = BackWindowBase.PoseAbs()
+        BackWindowBase.setParent(CarBase)
+        BackWindowBase.setPoseAbs(pose_abs)
+
+        R5.MoveJ(R5PrePlace, blocking=False)
+        R6.MoveL(R6BackPrePlace, blocking=False)
+
+        R5.MoveJ(R5Home, blocking=False)
+        R6.MoveJ(R6Home, blocking=False)
+
+    R6.MoveJ(R6Int1, blocking=False)
+    R6.MoveJ(R6FrontPrePick, blocking=False)
+    R6.MoveL(R6FrontPick, blocking=False)
+
+    while R6.Busy():
         a = 1
 
-     
+    #TODO:Attach
+    pose_abs = FrontWindowBase.PoseAbs()
+    FrontWindowBase.setParent(R6Tool)
+    FrontWindowBase.setPoseAbs(pose_abs)
+    
+    R6.MoveL(R6FrontPrePick, blocking=False)
+    R6.MoveJ(R6Int1, blocking=False)
+    R6.MoveJ(R6Int2, blocking=False)
+    R6.MoveJ(R6FrontPrePlace, blocking=False)
+    R6.MoveJ(R6FrontPlace, blocking=False)
+
+    while R6.Busy():
+        a = 1
+
+    pose_abs = FrontWindowBase.PoseAbs()
+    FrontWindowBase.setParent(CarBase)
+    FrontWindowBase.setPoseAbs(pose_abs)
+
+    R6.MoveL(R6FrontPrePlace, blocking=False)
+    R6.MoveJ(R6Home, blocking=False)
+
 if __name__ == "__main__":
     station2("Red")
