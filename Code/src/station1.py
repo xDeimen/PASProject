@@ -1,5 +1,4 @@
 from robodk import robolink
-import robodk
 
 def station1(color):
     RDK = robolink.Robolink()
@@ -400,4 +399,4 @@ def station1(color):
     
         
 if __name__ == "__main__":
-    station1("Blue")
+    station1("Red")
