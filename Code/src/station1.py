@@ -1,7 +1,13 @@
 from robodk import robolink
+import robodk
 
 def station1(color):
     RDK = robolink.Robolink()
+
+    R1Tool = RDK.Item('R1Tool')
+    R2Tool = RDK.Item('R2Tool')
+    R3Tool = RDK.Item('R3Tool')
+    R4Tool = RDK.Item('R4Tool')
 
     R1 = RDK.Item('R1')
     R2 = RDK.Item('R2')
@@ -81,6 +87,23 @@ def station1(color):
     R4BrownPick = RDK.Item('R4BrownPick')
     R4BrownPrePick = RDK.Item('R4BrownPrePick')
 
+    RBBlue = RDK.Item("Dreapta_Spate_Albastru")
+    RBRed = RDK.Item("Dreapta_Spate")
+    RBBrown = RDK.Item("Dreapta_Spate_Maro")
+
+    RFBlue = RDK.Item("Dreapta_Fata_Albastru")
+    RFRed = RDK.Item("Dreapta_Fata")
+    RFBrown = RDK.Item("Dreapta_Fata_Maro")
+
+    LBBlue = RDK.Item("Stanga_Spate_Albastru")
+    LBRed = RDK.Item("Stanga_Spate")
+    LBBrown = RDK.Item("Stanga_Spate_Maro")
+
+    LFBlue = RDK.Item("Stanga_Spate_Albastru")
+    LFRed = RDK.Item("Stanga_Spate")
+    LFBrown = RDK.Item("Stanga_Spate_Maro")
+
+
     #Move Home
     R1.setPoseFrame(R1Base)
     R2.setPoseFrame(R2Base)
@@ -92,10 +115,6 @@ def station1(color):
     R2.MoveJ(R2Home, blocking=False)
     R3.MoveJ(R3Home, blocking=False)
     R4.MoveJ(R4Home, blocking=False)
-
-
-   
-
 
     if color == "Red":
         R1.MoveJ(R1Int1, blocking=False)
@@ -123,6 +142,23 @@ def station1(color):
         R4.MoveL(R4RedPick, blocking=False)
 
         #TODO:Attach
+        pose_abs = R1RedBase.PoseAbs()
+        R1RedBase.setParent(R1Tool)
+        R1RedBase.setPoseAbs(pose_abs)
+        print("Old Pose (abs):", pose_abs)
+        print("New Pose (abs):", R1RedBase.PoseAbs())
+
+        pose_abs = RBRed.PoseAbs()
+        RFRed.setParent(R2Tool)
+        RFRed.setPose(pose_abs)
+
+        pose_abs = RBRed.PoseAbs()
+        LBRed.setParent(R3Tool)
+        LBRed.setPose(pose_abs)
+
+        pose_abs = RBRed.PoseAbs()
+        LFRed.setParent(R4Tool)
+        LFRed.setPose(pose_abs)
 
         #Prepick
         R1.MoveL(R1RedPrePick, blocking=False)
@@ -232,6 +268,71 @@ def station1(color):
         R2.MoveJ(R2Home, blocking=False)
         R3.MoveJ(R3Home, blocking=False)
         R4.MoveJ(R4Home, blocking=False)
+
+
+    if color == "Brown":
+        R1.MoveJ(R1Int1, blocking=False)
+        R2.MoveJ(R2Int1, blocking=False)
+        R4.MoveJ(R4Int1, blocking=False)
+
+        R4.MoveJ(R4Int2, blocking=False)
+
+        #PrePick
+        R1.setPoseFrame(R1BrownBase)
+        R2.setPoseFrame(R2BrownBase)
+        R3.setPoseFrame(R3BrownBase)
+        R4.setPoseFrame(R4BrownBase)
+
+        R1.MoveL(R1BrownPrePick, blocking=False)
+        R2.MoveL(R2BrownPrePick, blocking=False)
+        R3.MoveL(R3BrownPrePick, blocking=False)
+        R4.MoveL(R4BrownPrePick, blocking=False)
+
+        R1.MoveL(R1BrownPick, blocking=False)
+        R2.MoveL(R2BrownPick, blocking=False)
+        R3.MoveL(R3BrownPick, blocking=False)
+        R4.MoveL(R4BrownPick, blocking=False)
+
+        #TODO:ATTACH
+
+        R1.MoveL(R1BrownPrePick, blocking=False)
+        R2.MoveL(R2BrownPrePick, blocking=False)
+        R3.MoveL(R3BrownPrePick, blocking=False)
+        R4.MoveL(R4BrownPrePick, blocking=False)
+
+        R1.setPoseFrame(R1Base)
+        R2.setPoseFrame(R2Base)
+        R3.setPoseFrame(R3Base)
+        R4.setPoseFrame(R4Base)
+
+        R4.MoveJ(R4Int1, blocking=False)
+
+        R1.MoveJ(R1Home, blocking=False)
+        R2.MoveJ(R2Home, blocking=False)
+        R3.MoveJ(R3Home, blocking=False)
+        R4.MoveJ(R4Home, blocking=False)
+
+        R1.MoveJ(R1PrePlace, blocking=False)
+        R2.MoveJ(R2PrePlace, blocking=False)
+        R3.MoveJ(R3PrePlace, blocking=False)
+        R4.MoveJ(R4PrePlace, blocking=False)
+
+        R1.MoveL(R1Place, blocking=False)
+        R2.MoveL(R2Place, blocking=False)
+        R3.MoveL(R3Place, blocking=False)
+        R4.MoveL(R4Place, blocking=False)
+
+        #TODO: DETACH
+
+        R1.MoveL(R1PrePlace, blocking=False)
+        R2.MoveL(R2PrePlace, blocking=False)
+        R3.MoveL(R3PrePlace, blocking=False)
+        R4.MoveL(R4PrePlace, blocking=False)
+
+        R1.MoveJ(R1Home, blocking=False)
+        R2.MoveJ(R2Home, blocking=False)
+        R3.MoveJ(R3Home, blocking=False)
+        R4.MoveJ(R4Home, blocking=False)
     
         
         
@@ -242,4 +343,4 @@ def station1(color):
 
 
 if __name__ == "__main__":
-    station1("Blue")
+    station1("Red")
