@@ -4,6 +4,8 @@ import robodk
 def station1(color):
     RDK = robolink.Robolink()
 
+    CarBase = RDK.Item("Car_Base")
+
     R1Tool = RDK.Item('R1Tool')
     R2Tool = RDK.Item('R2Tool')
     R3Tool = RDK.Item('R3Tool')
@@ -135,7 +137,10 @@ def station1(color):
         R3.MoveL(R3RedPick, blocking=False)
         R4.MoveL(R4RedPick, blocking=False)
 
-        #TODO:Attach
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+
+         #TODO:Attach
         pose_abs = R1RedBase.PoseAbs()
         R1RedBase.setParent(R1Tool)
         R1RedBase.setPoseAbs(pose_abs)
@@ -157,11 +162,6 @@ def station1(color):
         R2.MoveL(R2RedPrePick, blocking=False)
         R3.MoveL(R3RedPrePick, blocking=False)
         R4.MoveL(R4RedPrePick, blocking=False)
-
-        R1.setPoseFrame(R1Base)
-        R2.setPoseFrame(R2Base)
-        R3.setPoseFrame(R3Base)
-        R4.setPoseFrame(R4Base)
 
         R2.MoveJ(R2Int2, blocking=False)
 
@@ -186,6 +186,24 @@ def station1(color):
         R4.MoveL(R4Place, blocking=False)
 
         #TODO: DETACH
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+            
+        pose_abs = R1RedBase.PoseAbs()
+        R1RedBase.setParent(CarBase)
+        R1RedBase.setPoseAbs(pose_abs)
+
+        pose_abs = R2RedBase.PoseAbs()
+        R2RedBase.setParent(CarBase)
+        R2RedBase.setPoseAbs(pose_abs)
+
+        pose_abs = R3RedBase.PoseAbs()
+        R3RedBase.setParent(CarBase)
+        R3RedBase.setPoseAbs(pose_abs)
+
+        pose_abs = R4RedBase.PoseAbs()
+        R4RedBase.setParent(CarBase)
+        R4RedBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1PrePlace, blocking=False)
         R2.MoveL(R2PrePlace, blocking=False)
@@ -196,6 +214,7 @@ def station1(color):
         R2.MoveJ(R2Home, blocking=False)
         R3.MoveJ(R3Home, blocking=False)
         R4.MoveJ(R4Home, blocking=False)
+
     
     if color == "Blue":
         R1.MoveJ(R1Int1, blocking=False)
@@ -203,12 +222,6 @@ def station1(color):
         R4.MoveJ(R4Int1, blocking=False)
 
         R4.MoveJ(R4Int2, blocking=False)
-
-        #PrePick
-        R1.setPoseFrame(R1BlueBase)
-        R2.setPoseFrame(R2BlueBase)
-        R3.setPoseFrame(R3BlueBase)
-        R4.setPoseFrame(R4BlueBase)
 
         R1.MoveL(R1BluePrePick, blocking=False)
         R2.MoveL(R2BluePrePick, blocking=False)
@@ -220,17 +233,30 @@ def station1(color):
         R3.MoveL(R3BluePick, blocking=False)
         R4.MoveL(R4BluePick, blocking=False)
 
-        #TODO:ATTACH
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+
+         #TODO:Attach
+        pose_abs = R1BlueBase.PoseAbs()
+        R1BlueBase.setParent(R1Tool)
+        R1BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R2BlueBase.PoseAbs()
+        R2BlueBase.setParent(R2Tool)
+        R2BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R3BlueBase.PoseAbs()
+        R3BlueBase.setParent(R3Tool)
+        R3BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R4BlueBase.PoseAbs()
+        R4BlueBase.setParent(R4Tool)
+        R4BlueBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1BluePrePick, blocking=False)
         R2.MoveL(R2BluePrePick, blocking=False)
         R3.MoveL(R3BluePrePick, blocking=False)
         R4.MoveL(R4BluePrePick, blocking=False)
-
-        R1.setPoseFrame(R1Base)
-        R2.setPoseFrame(R2Base)
-        R3.setPoseFrame(R3Base)
-        R4.setPoseFrame(R4Base)
 
         R4.MoveJ(R4Int1, blocking=False)
 
@@ -250,6 +276,24 @@ def station1(color):
         R4.MoveL(R4Place, blocking=False)
 
         #TODO: DETACH
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+            
+        pose_abs = R1BlueBase.PoseAbs()
+        R1BlueBase.setParent(CarBase)
+        R1BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R2BlueBase.PoseAbs()
+        R2BlueBase.setParent(CarBase)
+        R2BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R3BlueBase.PoseAbs()
+        R3BlueBase.setParent(CarBase)
+        R3BlueBase.setPoseAbs(pose_abs)
+
+        pose_abs = R4BlueBase.PoseAbs()
+        R4BlueBase.setParent(CarBase)
+        R4BlueBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1PrePlace, blocking=False)
         R2.MoveL(R2PrePlace, blocking=False)
@@ -269,12 +313,6 @@ def station1(color):
 
         R4.MoveJ(R4Int2, blocking=False)
 
-        #PrePick
-        R1.setPoseFrame(R1BrownBase)
-        R2.setPoseFrame(R2BrownBase)
-        R3.setPoseFrame(R3BrownBase)
-        R4.setPoseFrame(R4BrownBase)
-
         R1.MoveL(R1BrownPrePick, blocking=False)
         R2.MoveL(R2BrownPrePick, blocking=False)
         R3.MoveL(R3BrownPrePick, blocking=False)
@@ -285,17 +323,30 @@ def station1(color):
         R3.MoveL(R3BrownPick, blocking=False)
         R4.MoveL(R4BrownPick, blocking=False)
 
-        #TODO:ATTACH
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+
+         #TODO:Attach
+        pose_abs = R1BrownBase.PoseAbs()
+        R1BrownBase.setParent(R1Tool)
+        R1BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R2BrownBase.PoseAbs()
+        R2BrownBase.setParent(R2Tool)
+        R2BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R3BrownBase.PoseAbs()
+        R3BrownBase.setParent(R3Tool)
+        R3BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R4BrownBase.PoseAbs()
+        R4BrownBase.setParent(R4Tool)
+        R4BrownBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1BrownPrePick, blocking=False)
         R2.MoveL(R2BrownPrePick, blocking=False)
         R3.MoveL(R3BrownPrePick, blocking=False)
         R4.MoveL(R4BrownPrePick, blocking=False)
-
-        R1.setPoseFrame(R1Base)
-        R2.setPoseFrame(R2Base)
-        R3.setPoseFrame(R3Base)
-        R4.setPoseFrame(R4Base)
 
         R4.MoveJ(R4Int1, blocking=False)
 
@@ -315,6 +366,27 @@ def station1(color):
         R4.MoveL(R4Place, blocking=False)
 
         #TODO: DETACH
+         #TODO:Attach
+
+        while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
+            a = 1
+
+        pose_abs = R1BrownBase.PoseAbs()
+        R1BrownBase.setParent(CarBase)
+        R1BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R2BrownBase.PoseAbs()
+        R2BrownBase.setParent(CarBase)
+        R2BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R3BrownBase.PoseAbs()
+        R3BrownBase.setParent(CarBase)
+        R3BrownBase.setPoseAbs(pose_abs)
+
+        pose_abs = R4BrownBase.PoseAbs()
+        R4BrownBase.setParent(CarBase)
+        R4BrownBase.setPoseAbs(pose_abs)
+
 
         R1.MoveL(R1PrePlace, blocking=False)
         R2.MoveL(R2PrePlace, blocking=False)
@@ -327,12 +399,5 @@ def station1(color):
         R4.MoveJ(R4Home, blocking=False)
     
         
-        
-
-        
-
-        
-
-
 if __name__ == "__main__":
-    station1("Red")
+    station1("Blue")
