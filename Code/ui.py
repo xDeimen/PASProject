@@ -3,80 +3,17 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
-from datetime import datetime
-import time
+from datetime import datetime, timedelta
 from typing import Dict, List, Any
+
+# Import your MongoDB interface
+# from your_mongo_interface import MongoDBInterface
+
+# For demonstration, I'll include a simplified version of your interface
+from pymongo import MongoClient
+from pymongo.collection import Collection
+from typing import Any, Dict, List, Optional
 from utils.mongo import MongoDBInterface
-
-import streamlit as st
-import plotly.express as px
-import plotly.graph_objects as go
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-
-# Import your MongoDB interface
-# from your_mongo_interface import MongoDBInterface
-
-# For demonstration, I'll include a simplified version of your interface
-from pymongo import MongoClient
-from pymongo.collection import Collection
-from typing import Any, Dict, List, Optional
-
-# Configuration - Set your MongoDB connection details here
-MONGO_URI = "mongodb://localhost:27017"
-DATABASE_NAME = "prod_db"
-
-import streamlit as st
-import plotly.express as px
-import plotly.graph_objects as go
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from typing import Dict, List, Any
-
-# Import your MongoDB interface
-# from your_mongo_interface import MongoDBInterface
-
-# For demonstration, I'll include a simplified version of your interface
-from pymongo import MongoClient
-from pymongo.collection import Collection
-from typing import Any, Dict, List, Optional
-
-
-class MongoDBInterface:
-    def __init__(self, uri: str, db_name: str, collection_name: str):
-        self.client = MongoClient(uri)
-        self.db = self.client[db_name]
-        self.collection: Collection = self.db[collection_name]
-
-    def create_document(self, data: Dict[str, Any]) -> str:
-        """Insert a new document into the collection."""
-        result = self.collection.insert_one(data)
-        return str(result.inserted_id)
-
-    def read_documents(self, query: Dict[str, Any] = {}, projection: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
-        """Find documents matching the query."""
-        return list(self.collection.find(query, projection))
-
-    def read_document_by_id(self, document_id: Any) -> Optional[Dict[str, Any]]:
-        """Find a single document by its _id."""
-        return self.collection.find_one({"_id": document_id})
-
-    def update_document(self, query: Dict[str, Any], update_data: Dict[str, Any]) -> int:
-        """Update documents matching the query."""
-        result = self.collection.update_many(query, {"$set": update_data})
-        return result.modified_count
-
-    def delete_document(self, query: Dict[str, Any]) -> int:
-        """Delete documents matching the query."""
-        result = self.collection.delete_many(query)
-        return result.deleted_count
-
-    def close_connection(self):
-        """Close the MongoDB client connection."""
-        self.client.close()
 
 
 # Configuration - Set your MongoDB connection details here
@@ -88,6 +25,10 @@ INVENTORY_COLLECTION = "inventory"
 ROBOT_ANALYTICS_COLLECTION = "logs"  # Change this to your actual collection name
 TICKETS_COLLECTION = "tickets"  # Change this to your actual collection name
 PRODUCTS_COLLECTION = "products"  # Change this to your actual collection name
+
+# Inventory settings
+LOW_STOCK_THRESHOLD = 30  # Items below this quantity will trigger reorder alerts
+DEFAULT_REORDER_QUANTITY = 100  # Default quantity to order when restocking
 
 # Initialize MongoDB connections
 @st.cache_resource
@@ -142,6 +83,80 @@ def save_inventory_data(inventory_dict: Dict[str, int]):
 
 def create_inventory_charts(inventory_dict: Dict[str, int]):
     """Create various charts for inventory visualization."""
+    # Debug: Check if we have data
+    if not inventory_dict:
+        st.warning("No inventory data to create charts")
+        return None, None, None, None
+        
+    # Convert dict to DataFrame for easier plotting
+    df = pd.DataFrame(list(inventory_dict.items()), columns=['Item', 'Quantity'])
+    df = df.sort_values('Quantity', ascending=False)
+    
+    # Debug: Check DataFrame
+    if df.empty:
+        st.warning("DataFrame is empty, cannot create charts")
+        return None, None, None, None
+    
+    # 1. Top 10 Items by Quantity (Horizontal Bar Chart)
+    top_10 = df.head(10)
+    fig_top = px.bar(
+        top_10.sort_values('Quantity', ascending=True),
+        x='Quantity',
+        y='Item',
+        orientation='h',
+        title='📦 Top 10 Items by Quantity',
+        color='Quantity',
+        color_continuous_scale='Blues',
+        text='Quantity'
+    )
+    fig_top.update_traces(texttemplate='%{text}', textposition='outside')
+    fig_top.update_layout(height=400, showlegend=False)
+    
+    # 2. All Items Overview (Vertical Bar Chart)
+    fig_all = px.bar(
+        df,
+        x='Item',
+        y='Quantity',
+        title='📊 Complete Inventory Overview',
+        color='Quantity',
+        color_continuous_scale='Viridis'
+    )
+    fig_all.update_xaxes(tickangle=45)
+    fig_all.update_layout(height=500, showlegend=False)
+    
+    # 3. Low Stock Items (items with quantity < LOW_STOCK_THRESHOLD)
+    low_stock = df[df['Quantity'] < LOW_STOCK_THRESHOLD].sort_values('Quantity')
+    if not low_stock.empty:
+        fig_low_stock = px.bar(
+            low_stock,
+            x='Item',
+            y='Quantity',
+            title='⚠️ Low Stock Items (< ' + str(LOW_STOCK_THRESHOLD) + ' units)',
+            color='Quantity',
+            color_continuous_scale='Reds',
+            text='Quantity'
+        )
+        fig_low_stock.update_traces(texttemplate='%{text}', textposition='outside')
+        fig_low_stock.update_xaxes(tickangle=45)
+        fig_low_stock.update_layout(height=400, showlegend=False)
+    else:
+        fig_low_stock = None
+    
+    # 4. Quantity Distribution (Histogram)
+    fig_dist = px.histogram(
+        df,
+        x='Quantity',
+        nbins=10,
+        title='📈 Quantity Distribution',
+        color_discrete_sequence=['#636EFA']
+    )
+    fig_dist.update_layout(height=400, showlegend=False)
+    
+    # Return all 4 charts
+    return fig_top, fig_all, fig_low_stock, fig_dist
+
+def show_products_page():
+    """Create various charts for inventory visualization."""
     df = pd.DataFrame(list(inventory_dict.items()), columns=['Item', 'Quantity'])
     df = df.sort_values('Quantity', ascending=False)
     
@@ -179,7 +194,7 @@ def create_inventory_charts(inventory_dict: Dict[str, int]):
             low_stock,
             x='Item',
             y='Quantity',
-            title='⚠️ Low Stock Items (< 50 units)',
+            title='⚠️ Low Stock Items (< ' + str(LOW_STOCK_THRESHOLD) + ' units)',
             color='Quantity',
             color_continuous_scale='Reds',
             text='Quantity'
@@ -202,6 +217,105 @@ def create_inventory_charts(inventory_dict: Dict[str, int]):
     
     return fig_top, fig_all, fig_low_stock, fig_dist
 
+def reorder_item(item_name: str, reorder_quantity: int):
+    """Add quantity to an existing item in inventory."""
+    try:
+        mongo = get_inventory_interface()
+        
+        # Get current inventory
+        documents = mongo.read_documents()
+        current_inventory = {}
+        for doc in documents:
+            doc_copy = {k: v for k, v in doc.items() if k != '_id'}
+            current_inventory.update(doc_copy)
+        
+        # Update the item quantity
+        if item_name in current_inventory:
+            current_inventory[item_name] += reorder_quantity
+        else:
+            current_inventory[item_name] = reorder_quantity
+        
+        # Save back to database
+        mongo.delete_document({})
+        mongo.create_document(current_inventory)
+        
+        # Clear cache to force reload
+        st.cache_data.clear()
+        
+        return True, f"Successfully ordered {reorder_quantity} units of {item_name}. New quantity: {current_inventory[item_name]}"
+    except Exception as e:
+        return False, f"Error placing order: {str(e)}"
+
+def check_low_stock_and_show_alerts(inventory_data):
+    """Check for low stock items and show reorder alerts."""
+    if not inventory_data:
+        return
+    
+    # Find items below threshold
+    low_stock_items = {
+        item: quantity for item, quantity in inventory_data.items() 
+        if quantity < LOW_STOCK_THRESHOLD
+    }
+    
+    if not low_stock_items:
+        return
+    
+    # Initialize session state for tracking shown alerts
+    if 'shown_alerts' not in st.session_state:
+        st.session_state.shown_alerts = set()
+    
+    # Show alerts for items we haven't alerted about yet in this session
+    for item, quantity in low_stock_items.items():
+        alert_key = f"alert_{item}_{quantity}"
+        
+        # Only show alert if we haven't shown it for this item at this quantity
+        if alert_key not in st.session_state.shown_alerts:
+            show_reorder_popup(item, quantity, alert_key)
+
+def show_reorder_popup(item_name: str, current_quantity: int, alert_key: str):
+    """Show a popup dialog for reordering low stock items."""
+    # Create a unique container for this alert
+    with st.container():
+        # Create an alert banner
+        st.error(f"⚠️ **LOW STOCK ALERT** - {item_name} is running low ({current_quantity} units remaining)")
+        
+        # Create columns for the reorder interface
+        col1, col2, col3, col4 = st.columns([2, 1, 1, 1])
+        
+        with col1:
+            st.write(f"**{item_name}** currently has **{current_quantity}** units (below threshold of {LOW_STOCK_THRESHOLD})")
+        
+        with col2:
+            # Quantity input with default value
+            reorder_qty = st.number_input(
+                "Order Qty",
+                min_value=1,
+                value=DEFAULT_REORDER_QUANTITY,
+                key=f"qty_{alert_key}"
+            )
+        
+        with col3:
+            # Order button
+            if st.button("📦 Order Now", key=f"order_{alert_key}", type="primary"):
+                success, message = reorder_item(item_name, reorder_qty)
+                if success:
+                    st.success(message)
+                    # Mark this alert as handled
+                    st.session_state.shown_alerts.add(alert_key)
+                    st.rerun()
+                else:
+                    st.error(message)
+        
+        with col4:
+            # Dismiss button
+            if st.button("❌ Dismiss", key=f"dismiss_{alert_key}"):
+                # Mark this alert as handled without ordering
+                st.session_state.shown_alerts.add(alert_key)
+                st.rerun()
+        
+        st.markdown("---")
+
+
 def display_inventory_stats(inventory_dict: Dict[str, int]):
     """Display key inventory statistics."""
     total_items = sum(inventory_dict.values())
@@ -209,7 +323,7 @@ def display_inventory_stats(inventory_dict: Dict[str, int]):
     avg_quantity = total_items / total_products if total_products > 0 else 0
     max_item = max(inventory_dict.items(), key=lambda x: x[1]) if inventory_dict else ("", 0)
     min_item = min(inventory_dict.items(), key=lambda x: x[1]) if inventory_dict else ("", 0)
-    low_stock_count = len([k for k, v in inventory_dict.items() if v < 50])
+    low_stock_count = len([k for k, v in inventory_dict.items() if v < LOW_STOCK_THRESHOLD])
     
     col1, col2, col3, col4 = st.columns(4)
     
@@ -448,6 +562,10 @@ def show_inventory_page():
     # Load inventory data
     inventory_data = load_inventory_data()
     
+    # Check for low stock and show alerts FIRST (before other content)
+    if inventory_data:
+        check_low_stock_and_show_alerts(inventory_data)
+    
     if not inventory_data:
         st.warning("📋 No inventory data found in the database.")
         st.info("💡 **Data Format**: Your MongoDB documents should contain key-value pairs where the key is the item name and the value is the quantity.")
@@ -486,7 +604,7 @@ Example document:
         if fig_low_stock:
             st.plotly_chart(fig_low_stock, use_container_width=True)
         else:
-            st.success("🎉 No low stock items! All items have 50+ units.")
+            st.success(f"🎉 No low stock items! All items have {LOW_STOCK_THRESHOLD}+ units.")
     
     with tab4:
         st.plotly_chart(fig_dist, use_container_width=True)
@@ -512,8 +630,44 @@ Example document:
     df = df[df['Quantity'] >= min_quantity]
     df = df.sort_values('Quantity', ascending=False)
     
-    # Display editable dataframe
-    st.subheader(f"📝 Editable Inventory ({len(df)} items)")
+    # Quick reorder section for low stock items
+    low_stock_items = [item for item, qty in inventory_data.items() if qty < LOW_STOCK_THRESHOLD]
+    if low_stock_items:
+        st.subheader("⚡ Quick Reorder (Low Stock Items)")
+        
+        reorder_col1, reorder_col2, reorder_col3 = st.columns([2, 1, 1])
+        
+        with reorder_col1:
+            selected_item = st.selectbox(
+                "Select item to reorder",
+                low_stock_items,
+                format_func=lambda x: f"{x} ({inventory_data[x]} units)"
+            )
+        
+        with reorder_col2:
+            quick_reorder_qty = st.number_input(
+                "Quantity to order",
+                min_value=1,
+                value=DEFAULT_REORDER_QUANTITY,
+                key="quick_reorder_qty"
+            )
+        
+        with reorder_col3:
+            if st.button("📦 Quick Order", type="secondary"):
+                success, message = reorder_item(selected_item, quick_reorder_qty)
+                if success:
+                    st.success(message)
+                    st.rerun()
+                else:
+                    st.error(message)
+        
+        st.markdown("---")
+    
+    # Display editable dataframe with reorder functionality
+    st.subheader(f"📝 Inventory Management ({len(df)} items)")
+    
+    # Alternative: Traditional editable dataframe
+    st.subheader(f"📊 Data Editor ({len(df)} items)")
     edited_df = st.data_editor(
         df,
         use_container_width=True,
