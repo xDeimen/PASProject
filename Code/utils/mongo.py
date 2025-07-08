@@ -35,3 +35,9 @@ class MongoDBInterface:
     def close_connection(self):
         """Close the MongoDB client connection."""
         self.client.close()
+
+    def get_max_value(self, field: str, query: Dict[str, Any] = {}) -> Any:
+        """Retrieve the highest value of a specific field in the collection. Defaults to 1 if none found."""
+        result = self.collection.find(query, {field: 1, "_id": 0}).sort(field, -1).limit(1)
+        doc = next(result, None)
+        return doc.get(field) if doc and field in doc else 0

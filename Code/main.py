@@ -4,17 +4,38 @@ from inventory_service import *
 from src.line import copy_line
 from utils.color import get_random_color
 from src.run import run
+import datetime
 
 uri = "mongodb://localhost:27017/"
-
 inventory = InventoryService(uri, "prod_db", "inventory")
 
-i = 1
+latest_product_id = inventory.get_max_increment()
+instances = 5
 
-while i <= 1:
+prod_id = latest_product_id + 1
+
+while prod_id <= latest_product_id + instances:
+    #Get a random color
     color = get_random_color()
-    attach_to = copy_line(i, color)
-    inventory.copy_necesarry(i, color)
-    run(attach_to, color, i)
-    inventory.finish(increment=i, color=color)
-    i = i + 1 
+
+    #Get the object to attach all the parts to
+    attach_to = copy_line(prod_id, color)
+
+    #Remove from inventory the used parts
+    inventory.copy_necesarry(prod_id, color)
+
+    #Run
+    start_time = datetime.datetime.now()
+    run(attach_to, color, prod_id)
+    end_time = datetime.datetime.now()
+    inventory.finish(increment=prod_id)
+    
+    inventory.log_products(
+        prod_id = prod_id,
+        prod_time = end_time-start_time,
+        color = color
+        
+    )
+
+    #Next instance
+    prod_id = prod_id + 1

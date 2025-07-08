@@ -1,6 +1,12 @@
 from robodk import robolink
+from stats import StatsClass
+import datetime
+
+
 
 def station1(obj_to_attach_to, color, increment):
+    s = StatsClass()
+
     RDK = robolink.Robolink()
 
     R1Tool = RDK.Item('R1Tool')
@@ -81,17 +87,39 @@ def station1(obj_to_attach_to, color, increment):
     R3.setPoseFrame(R3Base)
     R4.setPoseFrame(R4Base)
 
+    
 
+    start_time = datetime.datetime.now()
     R1.MoveJ(R1Home, blocking=False)
     R2.MoveJ(R2Home, blocking=False)
     R3.MoveJ(R3Home, blocking=False)
     R4.MoveJ(R4Home, blocking=False)
+    s.log(
+        product_increment = increment,
+        station = "S1",
+        robots = ["R1", "R2", "R3", "R4"],
+        move = "J",
+        target = [R1Base.Name(), R2Base.Name(), R3Base.Name(), R4Base.Name()],
+        start_time = start_time,
+        end_time = datetime.datetime.now(),
+    )
 
     if color == "Red":
+        start_time = datetime.datetime.now()
         R1.MoveJ(R1Int1, blocking=False)
         R2.MoveJ(R2Int1, blocking=False)
         R3.MoveJ(R3Int1, blocking=False)
         R4.MoveJ(R4Int1, blocking=False)
+
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1Int1.Name(), R2Int1.Name(), R3Int1.Name(), R4Int1.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
 
         R1.MoveJ(R1Int2, blocking=False)
 
@@ -100,11 +128,32 @@ def station1(obj_to_attach_to, color, increment):
         R3.MoveJ(R3RedPrePick, blocking=False)
         R4.MoveJ(R4RedPrePick, blocking=False)
 
+        start_time = datetime.datetime.now()
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1RedPrePick.Name(), R2RedPrePick.Name(), R3RedPrePick.Name(), R4RedPrePick.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
+
         #Pick
         R1.MoveL(R1RedPick, blocking=False)
         R2.MoveL(R2RedPick, blocking=False)
         R3.MoveL(R3RedPick, blocking=False)
         R4.MoveL(R4RedPick, blocking=False)
+        start_time = datetime.datetime.now()
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1RedPick.Name(), R2RedPick.Name(), R3RedPick.Name(), R4RedPick.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
 
         while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
             a = 1
@@ -127,22 +176,57 @@ def station1(obj_to_attach_to, color, increment):
         R4ColorBase.setPoseAbs(pose_abs)
 
         #Prepick
+        start_time = datetime.datetime.now()
         R1.MoveL(R1RedPrePick, blocking=False)
         R2.MoveL(R2RedPrePick, blocking=False)
         R3.MoveL(R3RedPrePick, blocking=False)
         R4.MoveL(R4RedPrePick, blocking=False)
 
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1RedPrePick.Name(), R2RedPrePick.Name(), R3RedPrePick.Name(), R4RedPrePick.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
+
         R2.MoveJ(R2Int2, blocking=False)
 
+        start_time = datetime.datetime.now()
         R1.MoveJ(R1Int1, blocking=False)
         R2.MoveJ(R2Int1, blocking=False)
         R3.MoveJ(R3Int1, blocking=False)
         R4.MoveJ(R4Int1, blocking=False)
 
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1Int1.Name(), R2Int1.Name(), R3Int1.Name(), R4Int1.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
+
+
+
+        start_time = datetime.datetime.now()
         R1.MoveJ(R1Home, blocking=False)
         R2.MoveJ(R2Home, blocking=False)
         R3.MoveJ(R3Home, blocking=False)
         R4.MoveJ(R4Home, blocking=False)
+
+        s.log(
+            product_increment = increment,
+            station = "S1",
+            robots = ["R1", "R2", "R3", "R4"],
+            move = "J",
+            target = [R1Home.Name(), R2Home.Name(), R3Home.Name(), R4Home.Name()],
+            start_time = start_time,
+            end_time = datetime.datetime.now(),
+        )
 
         R1.MoveJ(R1PrePlace, blocking=False)
         R2.MoveJ(R2PrePlace, blocking=False)

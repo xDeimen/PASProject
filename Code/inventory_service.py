@@ -12,12 +12,13 @@ COLOR_MAP = {
 class InventoryService:
     def __init__(self, uri, db, table):
         self.interface = MongoDBInterface(uri, db, table)
+        self.logs = MongoDBInterface(uri, db, "logs")
+        self.products = MongoDBInterface(uri, db, "products")
         self.inventory = self.interface.read_documents()[0]
-        print(self.inventory)
 
 
     def _update(self):
-        query = {"_id": ObjectId('686cf6501da6e145a3a319ba')}
+        query = {"_id": ObjectId('686d3179383e4ddc77325f3d')}
         self.interface.update_document(query, self.inventory)
 
 
@@ -124,7 +125,15 @@ class InventoryService:
 
     def finish(self, increment):
         RDK = robolink.Robolink()
-        RDK.Item(f"LineBase_{increment}", robolink.ITEM_TYPE_FRAME),
+        item = RDK.Item(f"LineBase_{increment}", robolink.ITEM_TYPE_FRAME)
+        item.Delete()
+
+    def get_max_increment(self):
+        return self.products.get_max_value("prod_id")
+    
+    def log_products(self, **kwargs):
+        kwargs['prod_time'] = int(kwargs['prod_time'].total_seconds())
+        self.products.create_document(kwargs)
     
 
 
