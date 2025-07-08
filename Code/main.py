@@ -1,16 +1,20 @@
-import asyncio
-from robodk import robolink
-from src.robot import AsyncRobotManager
+from src.station1 import station1
+from src.station2 import station2
+from inventory_service import *
+from src.line import copy_line
+from utils.color import get_random_color
+from src.run import run
 
-RDK = robolink.Robolink()
+uri = "mongodb://localhost:27017/"
 
-# Option 1: Async approach
-async def main():
-    manager = AsyncRobotManager(RDK, ["R1", "R2", "R3", "R4"])
-    await manager.move_all_home()
+inventory = InventoryService(uri, "prod_db", "inventory")
 
-asyncio.run(main())
+i = 1
 
-# Option 2: Sync but simultaneous (recommended)
-manager = AsyncRobotManager(RDK, ["R1", "R2", "R3", "R4"])
-manager.move_all_home_sync()
+while i <= 1:
+    color = get_random_color()
+    attach_to = copy_line(i, color)
+    inventory.copy_necesarry(i, color)
+    run(attach_to, color, i)
+    inventory.finish(increment=i, color=color)
+    i = i + 1 

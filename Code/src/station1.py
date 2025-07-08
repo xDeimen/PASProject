@@ -1,9 +1,7 @@
 from robodk import robolink
 
-def station1(color):
+def station1(obj_to_attach_to, color, increment):
     RDK = robolink.Robolink()
-
-    CarBase = RDK.Item("Car_Base")
 
     R1Tool = RDK.Item('R1Tool')
     R2Tool = RDK.Item('R2Tool')
@@ -20,21 +18,10 @@ def station1(color):
     R3Base = RDK.Item('R3Base')
     R4Base = RDK.Item('R4Base')
 
-    R1BlueBase = RDK.Item('R1BlueBase')
-    R1BrownBase = RDK.Item('R1BrownBase')
-    R1RedBase = RDK.Item('R1RedBase')
-    
-    R2BlueBase = RDK.Item('R2BlueBase')
-    R2BrownBase = RDK.Item('R2BrownBase')
-    R2RedBase = RDK.Item('R2RedBase')
-
-    R3BlueBase = RDK.Item('R3BlueBase')
-    R3BrownBase = RDK.Item('R3BrownBase')
-    R3RedBase = RDK.Item('R3RedBase')
-    
-    R4BlueBase = RDK.Item('R4BlueBase')
-    R4BrownBase = RDK.Item('R4BrownBase')
-    R4RedBase = RDK.Item('R4RedBase')
+    R1ColorBase = RDK.Item(f'R1{color}Base_{increment}')
+    R2ColorBase = RDK.Item(f'R2{color}Base_{increment}')
+    R3ColorBase = RDK.Item(f'R3{color}Base_{increment}')
+    R4ColorBase = RDK.Item(f'R4{color}Base_{increment}')
 
     #R1 Points
     R1Place = RDK.Item('R1Place')
@@ -123,21 +110,21 @@ def station1(color):
             a = 1
 
          #TODO:Attach
-        pose_abs = R1RedBase.PoseAbs()
-        R1RedBase.setParent(R1Tool)
-        R1RedBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(R1Tool)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2RedBase.PoseAbs()
-        R2RedBase.setParent(R2Tool)
-        R2RedBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(R2Tool)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3RedBase.PoseAbs()
-        R3RedBase.setParent(R3Tool)
-        R3RedBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(R3Tool)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4RedBase.PoseAbs()
-        R4RedBase.setParent(R4Tool)
-        R4RedBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(R4Tool)
+        R4ColorBase.setPoseAbs(pose_abs)
 
         #Prepick
         R1.MoveL(R1RedPrePick, blocking=False)
@@ -171,21 +158,21 @@ def station1(color):
         while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
             a = 1
             
-        pose_abs = R1RedBase.PoseAbs()
-        R1RedBase.setParent(CarBase)
-        R1RedBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(obj_to_attach_to)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2RedBase.PoseAbs()
-        R2RedBase.setParent(CarBase)
-        R2RedBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(obj_to_attach_to)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3RedBase.PoseAbs()
-        R3RedBase.setParent(CarBase)
-        R3RedBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(obj_to_attach_to)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4RedBase.PoseAbs()
-        R4RedBase.setParent(CarBase)
-        R4RedBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(obj_to_attach_to)
+        R4ColorBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1PrePlace, blocking=False)
         R2.MoveL(R2PrePlace, blocking=False)
@@ -219,21 +206,21 @@ def station1(color):
             a = 1
 
          #TODO:Attach
-        pose_abs = R1BlueBase.PoseAbs()
-        R1BlueBase.setParent(R1Tool)
-        R1BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(R1Tool)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2BlueBase.PoseAbs()
-        R2BlueBase.setParent(R2Tool)
-        R2BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(R2Tool)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3BlueBase.PoseAbs()
-        R3BlueBase.setParent(R3Tool)
-        R3BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(R3Tool)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4BlueBase.PoseAbs()
-        R4BlueBase.setParent(R4Tool)
-        R4BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(R4Tool)
+        R4ColorBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1BluePrePick, blocking=False)
         R2.MoveL(R2BluePrePick, blocking=False)
@@ -261,21 +248,21 @@ def station1(color):
         while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
             a = 1
             
-        pose_abs = R1BlueBase.PoseAbs()
-        R1BlueBase.setParent(CarBase)
-        R1BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(obj_to_attach_to)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2BlueBase.PoseAbs()
-        R2BlueBase.setParent(CarBase)
-        R2BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(obj_to_attach_to)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3BlueBase.PoseAbs()
-        R3BlueBase.setParent(CarBase)
-        R3BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(obj_to_attach_to)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4BlueBase.PoseAbs()
-        R4BlueBase.setParent(CarBase)
-        R4BlueBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(obj_to_attach_to)
+        R4ColorBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1PrePlace, blocking=False)
         R2.MoveL(R2PrePlace, blocking=False)
@@ -309,21 +296,21 @@ def station1(color):
             a = 1
 
          #TODO:Attach
-        pose_abs = R1BrownBase.PoseAbs()
-        R1BrownBase.setParent(R1Tool)
-        R1BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(R1Tool)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2BrownBase.PoseAbs()
-        R2BrownBase.setParent(R2Tool)
-        R2BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(R2Tool)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3BrownBase.PoseAbs()
-        R3BrownBase.setParent(R3Tool)
-        R3BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(R3Tool)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4BrownBase.PoseAbs()
-        R4BrownBase.setParent(R4Tool)
-        R4BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(R4Tool)
+        R4ColorBase.setPoseAbs(pose_abs)
 
         R1.MoveL(R1BrownPrePick, blocking=False)
         R2.MoveL(R2BrownPrePick, blocking=False)
@@ -353,21 +340,21 @@ def station1(color):
         while R1.Busy() or R2.Busy() or R3.Busy() or R4.Busy():
             a = 1
 
-        pose_abs = R1BrownBase.PoseAbs()
-        R1BrownBase.setParent(CarBase)
-        R1BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R1ColorBase.PoseAbs()
+        R1ColorBase.setParent(obj_to_attach_to)
+        R1ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R2BrownBase.PoseAbs()
-        R2BrownBase.setParent(CarBase)
-        R2BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R2ColorBase.PoseAbs()
+        R2ColorBase.setParent(obj_to_attach_to)
+        R2ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R3BrownBase.PoseAbs()
-        R3BrownBase.setParent(CarBase)
-        R3BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R3ColorBase.PoseAbs()
+        R3ColorBase.setParent(obj_to_attach_to)
+        R3ColorBase.setPoseAbs(pose_abs)
 
-        pose_abs = R4BrownBase.PoseAbs()
-        R4BrownBase.setParent(CarBase)
-        R4BrownBase.setPoseAbs(pose_abs)
+        pose_abs = R4ColorBase.PoseAbs()
+        R4ColorBase.setParent(obj_to_attach_to)
+        R4ColorBase.setPoseAbs(pose_abs)
 
 
         R1.MoveL(R1PrePlace, blocking=False)

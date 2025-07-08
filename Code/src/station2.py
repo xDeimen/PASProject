@@ -1,9 +1,8 @@
 from robodk import robolink
 
-def station2(color):
+def station2(obj_to_attach_to, color, increment):
     RDK = robolink.Robolink()
 
-    CarBase = RDK.Item("Car_Base")
 
     R5Tool = RDK.Item('R5Tool')
     R6Tool = RDK.Item('R6Tool')
@@ -14,12 +13,9 @@ def station2(color):
     R5Base = RDK.Item('R5Base')
     R6Base = RDK.Item('R6Base')
 
-    HoodBrownBase = RDK.Item('HoodBrownBase')
-    HoodRedBase = RDK.Item('HoodRedBase')
-    HoodBlueBase = RDK.Item('HoodBlueBase')
-
-    FrontWindowBase= RDK.Item('FrontWindowBase')
-    BackWindowBase = RDK.Item('BackWindowBase')
+    HoodColorBase = RDK.Item(f'Hood{color}Base_{increment}')
+    FrontWindowBase= RDK.Item(f'FrontWindowBase_{increment}')
+    BackWindowBase = RDK.Item(f'BackWindowBase_{increment}')
 
     #R5 Points
     R5Place = RDK.Item('R5Place')
@@ -76,9 +72,9 @@ def station2(color):
             a = 1
 
         #TODO:Attach
-        pose_abs = HoodRedBase.PoseAbs()
-        HoodRedBase.setParent(R5Tool)
-        HoodRedBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(R5Tool)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
         BackWindowBase.setParent(R6Tool)
@@ -101,12 +97,12 @@ def station2(color):
         while R5.Busy() or R6.Busy():
             a = 1
 
-        pose_abs = HoodRedBase.PoseAbs()
-        HoodRedBase.setParent(CarBase)
-        HoodRedBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(obj_to_attach_to)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
-        BackWindowBase.setParent(CarBase)
+        BackWindowBase.setParent(obj_to_attach_to)
         BackWindowBase.setPoseAbs(pose_abs)
 
         R5.MoveJ(R5PrePlace, blocking=False)
@@ -131,9 +127,9 @@ def station2(color):
             a = 1
 
         #TODO:Attach
-        pose_abs = HoodBlueBase.PoseAbs()
-        HoodBlueBase.setParent(R5Tool)
-        HoodBlueBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(R5Tool)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
         BackWindowBase.setParent(R6Tool)
@@ -156,12 +152,12 @@ def station2(color):
         while R5.Busy() or R6.Busy():
             a = 1
 
-        pose_abs = HoodBlueBase.PoseAbs()
-        HoodBlueBase.setParent(CarBase)
-        HoodBlueBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(obj_to_attach_to)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
-        BackWindowBase.setParent(CarBase)
+        BackWindowBase.setParent(obj_to_attach_to)
         BackWindowBase.setPoseAbs(pose_abs)
 
         R5.MoveJ(R5PrePlace, blocking=False)
@@ -188,9 +184,9 @@ def station2(color):
             a = 1
 
         #TODO:Attach
-        pose_abs = HoodBrownBase.PoseAbs()
-        HoodBrownBase.setParent(R5Tool)
-        HoodBrownBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(R5Tool)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
         BackWindowBase.setParent(R6Tool)
@@ -213,12 +209,12 @@ def station2(color):
         while R5.Busy() or R6.Busy():
             a = 1
 
-        pose_abs = HoodBrownBase.PoseAbs()
-        HoodBrownBase.setParent(CarBase)
-        HoodBrownBase.setPoseAbs(pose_abs)
+        pose_abs = HoodColorBase.PoseAbs()
+        HoodColorBase.setParent(obj_to_attach_to)
+        HoodColorBase.setPoseAbs(pose_abs)
 
         pose_abs = BackWindowBase.PoseAbs()
-        BackWindowBase.setParent(CarBase)
+        BackWindowBase.setParent(obj_to_attach_to)
         BackWindowBase.setPoseAbs(pose_abs)
 
         R5.MoveJ(R5PrePlace, blocking=False)
@@ -249,7 +245,7 @@ def station2(color):
         a = 1
 
     pose_abs = FrontWindowBase.PoseAbs()
-    FrontWindowBase.setParent(CarBase)
+    FrontWindowBase.setParent(obj_to_attach_to)
     FrontWindowBase.setPoseAbs(pose_abs)
 
     R6.MoveL(R6FrontPrePlace, blocking=False)
